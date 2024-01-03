@@ -144,8 +144,7 @@ def face_data(image, CallOut, Distance_level):
 ref_image = cv2.imread(CONFIG_PATH + "lena.png")
 
 ref_image_face_width, _, _, _ = face_data(ref_image, False, Distance_level)
-Focal_length_found = FocalLength(
-    Known_distance, Known_width, ref_image_face_width)
+Focal_length_found = FocalLength(Known_distance, Known_width, ref_image_face_width)
 print("Taking camera on...")
 print(Focal_length_found)
 
@@ -174,9 +173,7 @@ while True:
 
     for (face_x, face_y, face_w, face_h) in Faces:
         if face_width_in_frame != 0:
-
-            Distance = Distance_finder(
-                Focal_length_found, Known_width, face_width_in_frame)
+            Distance = Distance_finder(Focal_length_found, Known_width, face_width_in_frame)
             Distance = round(Distance, 2)
             # Drwaing Text on the screen
             Distance_level = int(Distance)
