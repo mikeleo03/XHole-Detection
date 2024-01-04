@@ -2,31 +2,15 @@ from flask import Flask, render_template, Response
 import cv2
 import numpy as np
 from scipy.spatial import distance as dist
+from constant import *
 from objectdetector import FocalLength, Distance_finder, face_data
 
 app = Flask(__name__)
-
-CONFIG_PATH = "config/"
 
 Known_distance = 30  # Inches
 Known_width = 5.7  # Inches
 thres = 0.5 # Threshold to detect object
 nms_threshold = 0.2 # (0.1 to 1) 1 means no suppress, 0.1 means high suppress
-
-# Colors  >>> BGR Format(BLUE, GREEN, RED)
-GREEN = (0, 255, 0)
-RED = (0, 0, 255)
-BLACK = (0, 0, 0)
-YELLOW = (0, 255, 255)
-WHITE = (255, 255, 255)
-CYAN = (255, 255, 0)
-MAGENTA = (255, 0, 242)
-GOLDEN = (32, 218, 165)
-LIGHT_BLUE = (255, 9, 2)
-PURPLE = (128, 0, 128)
-CHOCOLATE = (30, 105, 210)
-PINK = (147, 20, 255)
-ORANGE = (0, 69, 255)
 
 font = cv2.FONT_HERSHEY_PLAIN
 fonts = cv2.FONT_HERSHEY_COMPLEX
@@ -143,10 +127,6 @@ def generate_frames():
                     frame = cv2.putText(frame, "!!MOVE AWAY!!", (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 2, [0, 0, 255], 4)
 
                 frame = cv2.putText(frame, str(D / 10) + " cm", (300, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
-
-                cv2.imshow('Output', frame)
-                if cv2.waitKey(100) == 13:
-                    break
 
             _, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
