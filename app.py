@@ -3,9 +3,14 @@ from lib.framegenerator import generate_frames
 
 app = Flask(__name__)
 
+@app.route('/')
+def home():
+    apps = ['detector']  # Replace with your actual app names
+    return render_template('index.html', title='XHole Detector', header='Welcome to XHole Detector', apps=apps)
+
 @app.route('/detector')
 def detector():
-    return render_template('detector.html')
+    return render_template('detector.html', title='XHole Main Cam', header='Width Detector')
 
 @app.route('/video_feed')
 def video_feed():
