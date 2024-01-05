@@ -9,9 +9,11 @@
         <link rel="icon" href="{{ url_for('static', filename='images/logo.jpg') }}" type="image/x-icon">
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.jpg') }}" type="image/x-icon">
         
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='detector.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/detector.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
     </head>
 
     <body>
@@ -22,5 +24,7 @@
         <div class="cam-desc">
             Sesuaikan objek yang ingin diukur dengan letak posisi kamera ya!
         </div>
+
+        <div id="overlay"></div>
     </body>
 </html>
