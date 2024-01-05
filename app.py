@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, request, Response
 from lib.framegenerator import generate_frames
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
@@ -47,6 +47,41 @@ def video_feed():
 @app.route('/recommend')
 def recommend():
     return render_template('recommend.html', title='XHole Detection Recommendation')
+
+# Examples of basic CRUD methods
+@app.route("/read")
+def read():
+    cursor = collection.find()
+    for record in cursor:
+        name = record["name"]
+        print(record)
+    return render_template("response.html", res = name)
+
+@app.route("/insert")
+def insert():
+    name = request.args.get("name")
+    address = request.args.get("address")
+    myVal = { "name": name, "address": address }
+    x = collection.insert_one(myVal)
+    return render_template("response.html", res = x)
+
+@app.route("/delete")
+def delete():
+    name = request.args.get("name")
+    myquery = { "name": name }
+    collection.delete_one(myquery)
+    x = "Record delete"
+    return render_template("response.html", res = x)
+
+@app.route("/update")
+def update():
+    name = request.args.get("name")
+    new_address = request.args.get("new_address")
+    myquery = { "name": name }
+    newvalues = { "$set": { "address": new_address } }
+    x = "Record updated"
+    collection.update_one(myquery, newvalues)
+    return render_template("response.html", res = x)
 
 if __name__ == '__main__':
     app.run(debug=True)
