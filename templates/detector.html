@@ -4,14 +4,19 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <title>{{ title }}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='detector.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
 
     <body>
-        <div id="cam_header">{{ header }}</div>
-        <div id="cam_main">
-            <img src="{{ url_for('video_feed') }}" width="100%" height="100%" />
+        {% include 'components/navbar.html' %}
+        <div class="cam-main">
+            <img src="{{ url_for('video_feed') }}" width="100%" height="98%" />
+        </div>
+        <div class="cam-desc">
+            Sesuaikan objek yang ingin diukur dengan letak posisi kamera ya!
         </div>
     </body>
 </html>
