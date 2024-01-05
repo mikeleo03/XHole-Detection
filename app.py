@@ -6,11 +6,11 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     apps = ['detector']  # Replace with your actual app names
-    return render_template('index.html', title='XHole Detector', header='Welcome to XHole Detector', apps=apps)
+    return render_template('index.html', title='XHole Detection', apps=apps)
 
 @app.route('/detector')
 def detector():
-    return render_template('detector.html', title='XHole Main Cam', header='Width Detector')
+    return render_template('detector.html', title='XHole Detection Main Cam')
 
 @app.route('/video_feed')
 def video_feed():
