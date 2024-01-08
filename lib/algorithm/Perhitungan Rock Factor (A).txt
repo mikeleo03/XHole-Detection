@@ -1,0 +1,13 @@
+Parameter Pembobotan untuk Blasting Index (BI)
+1. Rock Mass description ( RMD ) --> Inputan user
+2. Joint plane spacing ( JPS ) --> Camera
+3. Joint plane Orientation ( JPO ) --> Camera
+4. Specific Gravity Influence (SGI) 
+SGI = 25 x SG – 50
+Nilai SG dari Database: https://docs.google.com/spreadsheets/d/1yWgqgBU2rlWBajyzsbz0dCoTPeXs8R7a/edit?usp=drive_link&ouid=106133864579945101084&rtpof=true&sd=true
+5. Hardness (H)
+Dari database: https://docs.google.com/spreadsheets/d/1uTrN7crCv3uVpEuIc0GV2RZio5RQ2xKa/edit?usp=drive_link&ouid=106133864579945101084&rtpof=true&sd=true
+
+Blasting Index (BI) = 0,5x(RMD+JPS+JPO+SGI+H)
+
+Rock Factor (A) = BI x 0,15
