@@ -26,6 +26,12 @@ class KuzRam_Fragmentation:
         self.blasthole_diameter = blasthole_diameter
         self.high_level = high_level
         
+    def get_corrected_burden(self):
+        '''
+            Getter of collected burden
+        '''
+        return self.corrected_burden
+    
     def __calculate_rock_volume(self):
         '''
             Calculate the rock volume
