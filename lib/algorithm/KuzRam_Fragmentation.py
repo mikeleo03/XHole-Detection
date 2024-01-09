@@ -14,20 +14,17 @@ class KuzRam_Fragmentation:
             args:
                 explosives_density (rho1) = Massa jenis peledak, gr/cc
                 detonation_speed (VoD) = Kecepatan detonasi batuan, ft/s
-                blasting_energy (E) = Relatif weight strength bahan peledak, ANFO = 100, TNT = 115, kJ
-                rock_density (rho2) = Massa jenis batuan, pond cubic ft
+                blasting_energy (E) = Relatif weight strength bahan peledak, ANFO = 100, TNT = 115
+                rock_density (rho2) = Massa jenis batuan, pound cubic ft
                 blasthole_diameter (D) = Diameter lubang, mm
                 high_level (L) = Tinggi jenjang, m
-                ignition_method = Metode penyalaan, bisa "serentak" (true) atau "tunda" (false)
         '''
-        self.rock_factor = 0
         self.explosives_density = explosives_density
         self.detonation_speed = detonation_speed
         self.blasting_energy = blasting_energy
         self.rock_density = rock_density
         self.blasthole_diameter = blasthole_diameter
         self.high_level = high_level
-        self.ignition_method = ignition_method
         
     def __calculate_rock_volume(self):
         '''
@@ -45,15 +42,15 @@ class KuzRam_Fragmentation:
             params:
                 explosives_density (rho1) = Massa jenis peledak, gr/cc
                 detonation_speed (VoD) = Kecepatan detonasi batuan, ft/s
-                rock_density (rho2) = Massa jenis batuan, pond cubic ft
-                blasthole_diameter (D) = Diameter lubang, mm
+                rock_density (rho2) = Massa jenis batuan, pound cubic ft
+                blasthole_diameter (D) = Diameter lubang, m
         '''
         af1 = (self.explosives_density * pow(self.detonation_speed, 2) / 1.2 * pow(pow(1200, 2)), (1/3))     # Calculate explosives adjustment
         af2 = pow((160 / self.rock_density), (1/3))     # Calculate rock adjustment
         Kbstd = 30
         self.burden = self.blasthole_diameter * Kbstd * af1 * af2
         
-    def __calculate_corrected_burden(self):
+    def __calculate_corrected_burden(self, rock_deposition, geologic_structure, number_of_rows):
         '''
             Calculate the corrected burden by considering correction factors
             params:
@@ -82,7 +79,7 @@ class KuzRam_Fragmentation:
         # Menghitung corrected burden
         self.corrected_burden = Kd * Ks * Kr * self.burden
         
-    def __calculate_stifness(self):
+    def __calculate_stifness(self, ignition_method):
         '''
             Calculate stiffness
             params:
@@ -112,37 +109,38 @@ class KuzRam_Fragmentation:
         '''
             Calculate the corrected burden by considering correction factors
             params:
-                blasthole_diameter (D) = Diameter lubang, mm
+                blasthole_diameter (D) = Diameter lubang, m
                 corrected_burden (Bc) = Nilai burden yang dikoreksi, m
                 high_level (L) = Tinggi jenjang, m
+                explosives_density (rho1) = Massa jenis peledak, gr/cc
         '''
         r = 1/2 * self.blasthole_diameter
         t = 0.7 * self.corrected_burden         # Stemming depth, m
         j = 0.2 * self.corrected_burden         # The thickness of the rock to be crushed (subdrill), m
-        self.explosive_mass = math.pi * pow(r, 2) * (self.high_level - t + j)
+        self.explosive_mass = math.pi * pow(r, 2) * (self.high_level - t + j) * self.explosives_density
     
-    def run(self):
+    def run(self, rock_factor, rock_deposition, geologic_structure, number_of_rows, ignition_method):
         '''
             Run KuzRam Fragmentation calculations
             params:
                 explosives_density (rho1) = Massa jenis peledak, gr/cc
                 detonation_speed (VoD) = Kecepatan detonasi batuan, ft/s
-                rock_density (rho2) = Massa jenis batuan, pond cubic ft
-                blasthole_diameter (D) = Diameter lubang, mm
+                rock_density (rho2) = Massa jenis batuan, pound cubic ft
+                blasthole_diameter (D) = Diameter lubang, m
                 high_level (L) = Tinggi jenjang, m
                 ignition_method = Metode penyalaan, bisa'serentak' (true) atau 'tunda' (false)
-                blasting_energy (E) = Relatif weight strength bahan peledak, ANFO = 100, TNT = 115, kJ
+                blasting_energy (E) = Relatif weight strength bahan peledak, ANFO = 100, TNT = 115
         '''
         # Calculate the needed parameters
         self.__calculate_rock_volume()
         self.__calculate_burden()
-        self.__calculate_corrected_burden()
-        self.__calculate_stifness()
+        self.__calculate_corrected_burden(rock_deposition, geologic_structure, number_of_rows)
+        self.__calculate_stifness(ignition_method)
         self.__calculate_explosive_mass()
         
         # Calculate the fragmentation size
-        x = self.rock_factor * (self.rock_volume / self.explosive_mass) ** 0.8 * self.explosive_mass ** (1 / 6) / (self.blasting_energy / 115) ** (-19 / 30)
-        x *= 100  # Convert into mm
+        x = rock_factor * (self.rock_volume / self.explosive_mass) ** 0.8 * self.explosive_mass ** (1 / 6) / (self.blasting_energy / 115) ** (-19 / 30)
+        x *= 10  # Convert into mm
         
         # Return the rounded value
         return round(x, 2)
