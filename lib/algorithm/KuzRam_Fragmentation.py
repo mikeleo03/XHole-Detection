@@ -143,5 +143,5 @@ class KuzRam_Fragmentation:
         x *= 10  # Convert into mm
         
         # Return the rounded value
-        return round(x, 2)
+        return round(x, 3)
     
