@@ -2,7 +2,7 @@ class Rock_Factor:
     '''
     Class Rock_Factor, calculating the rock factor values
     '''
-    def __init__(self):
+    def __init__(self, rock_mass_description, joint_plane_spacing, joint_plane_orientation, specific_gravity, hardness):
         '''
             Initiate needed variables
             params:

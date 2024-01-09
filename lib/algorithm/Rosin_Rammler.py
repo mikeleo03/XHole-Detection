@@ -1,10 +1,11 @@
 import math
+import matplotlib.pyplot as plt
 
-class Rosin_Ramler:
+class Rosin_Rammler:
     '''
     Class Rossin_Ramler, calculating the Rossin Ramler values
     '''
-    def __init__(self, stdev_drilling_accuracy, corrected_burden, fragmentation_size):
+    def __init__(self, stdev_drilling_accuracy, corrected_burden, fragmentation_size, blasthole_diameter, high_level):
         '''
             Initiate needed variables
             params:
@@ -14,9 +15,9 @@ class Rosin_Ramler:
                 blasthole_diameter (D) = Diameter lubang, mm
                 high_level (L) = Tinggi jenjang, m
         '''
-        self.fragmentation_size = fragmentation_size
         self.stdev_drilling_accuracy = stdev_drilling_accuracy
         self.corrected_burden = corrected_burden
+        self.fragmentation_size = fragmentation_size
         self.blasthole_diameter = blasthole_diameter
         self.high_level = high_level
         
@@ -36,9 +37,8 @@ class Rosin_Ramler:
         
         # Calculate value of A
         a = self.corrected_burden / self.blasthole_diameter
-        rat = self.stdev_drilling_accuracy / self.corrected_burden
-        
-        self.uniformity_index = (2.2 - 14 * a) * (1 - (rat)) * (1 + (a - 1) / 1) * (cc / self.high_level)
+        val = 1 - (self.stdev_drilling_accuracy / self.corrected_burden)
+        self.uniformity_index = (2.2 - 14 * a / 1000) * val * (1 + (a - 1) / 2) * (cc / self.high_level)
     
     def calculate_distribution(self, sieve_size):
         '''
@@ -48,10 +48,10 @@ class Rosin_Ramler:
                 uniformity_index (n) = Indeks keseragaman
         '''
         # Calculate characteristic size (xc)
-        xc = pow ((sieve_size / 0.683), (1 / self.uniformity_index))
+        xc = sieve_size / pow(0.693, (1 / self.uniformity_index))
         
         # Calculate the presentasional distribution
-        dist = math.exp(-(pow(self.fragmentation_size / xc), self.uniformity_index)) * 100
+        dist = math.exp(-((self.fragmentation_size / xc) ** self.uniformity_index)) * 100
         return dist
         
     def run(self):
@@ -60,6 +60,9 @@ class Rosin_Ramler:
         '''
         # Calculate the needed parameters
         self.__calculate_uniformity_index()
+        print(self.uniformity_index)
+        sieve_size_data = []
+        percent_data = []
         
         # Run for sieve_size from 1 - 1000
         for sieve_size in range(1, 1000):
@@ -67,5 +70,13 @@ class Rosin_Ramler:
             dist = self.calculate_distribution(sieve_size)
             
             # Print the result
+            sieve_size_data.append(sieve_size)
+            percent_data.append(dist)
             print(sieve_size, dist)
-    
+        
+        # Plot the data
+        plt.plot(sieve_size_data, percent_data)
+        plt.xlabel("Fragmentasi (cm)")                          # add X-axis label 
+        plt.ylabel("Presentase Lolos (%)")                      # add Y-axis label 
+        plt.title("Estimasi Hasil Fragmentasi Peledakan")       # add title 
+        plt.show()
