@@ -43,6 +43,10 @@ def get_rock_options():
     rock_values = [doc.get("rock") for doc in cursor]
     return rock_values
 
+@app.route('/static/plot.png')
+def serve_plot():
+    return send_from_directory('static', 'plot.png')
+
 # List of endpoint
 @app.route('/')
 def home():
@@ -118,45 +122,11 @@ def submit_form():
         stdev_drilling_accuracy = float(request.form['stdevdrill'])
         corrected_burden = kuzram_class.get_corrected_burden()
         rossin_rammler_class = Rosin_Rammler(stdev_drilling_accuracy, corrected_burden, fragmentation_size, blasthole_diameter, high_level)
-        img_data = rossin_rammler_class.run()
+        rossin_rammler_class.run()
+        img_data = rossin_rammler_class.img_data
 
         # Return a response or redirect to another page
         return render_template('result.html', img_data=img_data, title='XHole Detection Recommendation Result')
-
-# Examples of basic CRUD methods
-@app.route("/read")
-def read():
-    cursor = collection.find()
-    for record in cursor:
-        name = record["name"]
-        print(record)
-    return render_template("response.html", res = name)
-
-@app.route("/insert")
-def insert():
-    name = request.args.get("name")
-    address = request.args.get("address")
-    myVal = { "name": name, "address": address }
-    x = collection.insert_one(myVal)
-    return render_template("response.html", res = x)
-
-@app.route("/delete")
-def delete():
-    name = request.args.get("name")
-    myquery = { "name": name }
-    collection.delete_one(myquery)
-    x = "Record delete"
-    return render_template("response.html", res = x)
-
-@app.route("/update")
-def update():
-    name = request.args.get("name")
-    new_address = request.args.get("new_address")
-    myquery = { "name": name }
-    newvalues = { "$set": { "address": new_address } }
-    x = "Record updated"
-    collection.update_one(myquery, newvalues)
-    return render_template("response.html", res = x)
 
 if __name__ == '__main__':
     app.run(debug=True)

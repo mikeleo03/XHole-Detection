@@ -10,6 +10,7 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.jpg') }}" type="image/x-icon">
 
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/result.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
@@ -17,6 +18,10 @@
     <body>
         {% include 'components/navbar.html' %}
         <div class="container">
+            <div class="fixed-top">
+                <!-- Content for fixed top part -->
+                <h1>Fixed Top Part</h1>
+            </div>
             <div class="result-plot">
                 <img src="data:image/png;base64,{{ img_data }}" alt="Plot">
             </div>
