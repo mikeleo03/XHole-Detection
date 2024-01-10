@@ -31,6 +31,13 @@ except Exception as e:
 db = client.xhole
 collection = db.data_train
 
+def get_rock_options():
+    # Replace this with your actual MongoDB query logic
+    # For example, you might use a MongoDB client library
+    # to connect to your database and fetch the data
+    options = ["Option 1", "Option 2", "Option 3"]
+    return options
+
 @app.route('/')
 def home():
     apps = ['detector']  # Replace with your actual app names
@@ -46,7 +53,8 @@ def video_feed():
 
 @app.route('/recommend')
 def recommend():
-    return render_template('recommend.html', title='XHole Detection Recommendation')
+    rock_options = get_rock_options()
+    return render_template('recommend.html', title='XHole Detection Recommendation', rock_options=rock_options)
 
 # Examples of basic CRUD methods
 @app.route("/read")

@@ -41,7 +41,8 @@ if __name__ == '__main__':
     # 3. Rosin-Rammler Calculations
     stdev_drilling_accuracy = 4.5
     corrected_burden = kuzram_class.get_corrected_burden()
+    stiffness = kuzram_class.get_stiffness()
     print("Corrected Burden:", corrected_burden)
     rossin_rammler_class = Rosin_Rammler(stdev_drilling_accuracy, corrected_burden, fragmentation_size, blasthole_diameter, high_level)
-    rossin_rammler_class.run()
+    rossin_rammler_class.run(stiffness)
     

@@ -26,32 +26,98 @@
             <div class="form-main">
                 <form action="/submit" method="post">
                     <h1 class="title">Recommendation System</h1>
-
-                    <label for="dropdown" data-info-content="Please choose an option.">Multiple Choice:</label>
-                    <select name="dropdown" id="dropdown">
-                        <option value="option1">Option 1</option>
-                        <option value="option2">Option 2</option>
-                        <!-- Add more options as needed -->
+                    
+                    <h2 class="subtitle">Rock and Explosives</h2>
+                    <label for="rock">Rock Type</label>
+                    <select name="rock" id="rock">
+                        {% for option in rock_options %}
+                            <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
                     </select>
-                    <div id="dropdown-info" class="info"></div>
+                    <div id="rock-info" class="info"></div>
 
-                    <label for="number" data-info-content="Please enter a positive number.">Number (Positive):</label>
-                    <input type="number" name="number" id="number" min="0" required>
-                    <div id="number-info" class="info"></div>
-
-                    <label for="dropdown1">Multiple Choice:</label>
-                    <select name="dropdown1" id="dropdown1">
-                        <option value="option1">Option 1</option>
-                        <option value="option2">Option 2</option>
-                        <!-- Add more options as needed -->
+                    <label for="explosives">Explosive Type</label>
+                    <select name="explosives" id="explosives">
+                        <option value="TNT">TNT</option>
+                        <option value="ANFO">ANFO</option>
                     </select>
-                    <div id="dropdown1-info" class="info"></div>
+                    <div id="explosives-info" class="info"></div>
 
-                    <label for="number1">Number (Positive):</label>
-                    <input type="number" name="number" id="number1" min="0" required>
-                    <div id="number1-info" class="info"></div>
+                    <label for="expdensity">Explosive Density (gr/cc)</label>
+                    <input type="number" name="expdensity" id="expdensity" min="0" required>
+                    <div id="expdensity-info" class="info"></div>
 
-                    <button type="submit">Submit</button>
+                    <label for="detspeed">Detonation Speed (ft/s)</label>
+                    <input type="number" name="detspeed" id="detspeed" min="0" required>
+                    <div id="detspeed-info" class="info"></div>
+
+                    <!-- Kalo blasting energy, ANFO = 100, TNT = 115 -->
+
+                    <h2 class="subtitle">Rock Factor</h2>
+                    <label for="rmd">Rock Mass Description (RMD)</label>
+                    <select name="rmd" id="rmd">
+                        <option value="1">Powdery / Friable</option>
+                        <option value="2">Blocky</option>
+                        <option value="3">Totally Massive</option>
+                    </select>
+                    <div id="rmd-info" class="info"></div>
+
+                    <label for="jps">Joint Plane Spacing (JPS)</label>
+                    <select name="jps" id="jps">
+                        <option value="1">Close (less than 0.1m)</option>
+                        <option value="2">Intermediate (0.1 - 1m)</option>
+                        <option value="3">Wide (more than 1m)</option>
+                    </select>
+                    <div id="jps-info" class="info"></div>
+
+                    <label for="jpo">Joint Plane Orientation (JPO)</label>
+                    <select name="jpo" id="jpo">
+                        <option value="1">Horizontal</option>
+                        <option value="2">Dip out of Face</option>
+                        <option value="3">Strike Normal to Face</option>
+                        <option value="4">Dip into Face</option>
+                    </select>
+                    <div id="jpo-info" class="info"></div>
+
+                    <h2 class="subtitle">Kuz-Ram Parameters</h2>
+                    <!-- Kalo blasthole diameter (minimum), ANFO = 0.03, TNT = 0.005 -->
+                    <label for="level">High Level (m)</label>
+                    <input type="number" name="level" id="level" min="0" required>
+                    <div id="level-info" class="info"></div>
+
+                    <label for="ignition">Ignition Method</label>
+                    <select name="ignition" id="ignition">
+                        <option value="True">Serentak</option>
+                        <option value="False">Tunda</option>
+                    </select>
+                    <div id="ignition-info" class="info"></div>
+
+                    <label for="rockdepo">Rock Deposition</label>
+                    <select name="rockdepo" id="rockdepo">
+                        <option value="1">Steeply dipping into cut</option>
+                        <option value="2">Steeply dipping into face</option>
+                        <option value="3">Others</option>
+                    </select>
+                    <div id="rockdepo-info" class="info"></div>
+
+                    <label for="geostruc">Geologic Structure</label>
+                    <select name="geostruc" id="geostruc">
+                        <option value="1">Heavily cracked</option>
+                        <option value="2">Thin well cemented layers</option>
+                        <option value="3">Massive intact rock</option>
+                    </select>
+                    <div id="geostruc-info" class="info"></div>
+
+                    <label for="rows">Number of Rows</label>
+                    <input type="number" name="rows" id="rows" min="0" required>
+                    <div id="rows-info" class="info"></div>
+                    
+                    <h2 class="subtitle">Rosin-Rammler Parameters</h2>
+                    <label for="stdevdrill">Standard Deviataion of Drilling Accuracy</label>
+                    <input type="number" name="stdevdrill" id="stdevdrill" min="0" required>
+                    <div id="stdevdrill-info" class="info"></div>
+
+                    <button type="submit">Give me the best advice!</button>
                 </form>
             <div>
         </div>

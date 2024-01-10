@@ -1,8 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
     const infoContent = {
-        'number': 'Please enter a positive number. This field requires a positive numeric value.',
-        'dropdown': 'Please choose an option from the dropdown. Make sure to select the most appropriate one for your situation.',
-        'number1': 'Isi yang beter atuh kang'
+        'rock': 'Please select the considered rock type!',
+        'explosives': 'Please choose appropriate explosive you use.',
+        'expdensity': 'Reference Value <br></br> ANFO : 0.8 - 0.85 gr/cc <br></br> TNT : 1.65 - 1.75 gr/cc',
+        'detspeed': 'Reference Value <br></br> ANFO :  8202.5 - 14764.5 ft/s <br></br> TNT : > 22967 ft/s',
+        'level': 'Input the high level in meter.',
+        'rows': 'Input the number of rows in the blast hole',
+        'stdevdrill': 'Input the standard deviation of drilling accuracy'
     };
 
     // Get all input elements

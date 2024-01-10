@@ -32,6 +32,12 @@ class KuzRam_Fragmentation:
         '''
         return self.corrected_burden
     
+    def get_stifness(self):
+        '''
+            Getter of stifness
+        '''
+        return self.stiffness
+    
     def __calculate_rock_volume(self):
         '''
             Calculate the rock volume

@@ -7,7 +7,7 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
 }
 
 .fixed-top {
@@ -22,8 +22,8 @@ body {
     background: var(--color2);
     display: flex;
     flex: 1;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -48,6 +48,14 @@ form {
     padding-bottom: 1rem;
 }
 
+.subtitle {
+    font-size: large;
+    padding-bottom: 1rem;
+    color: #888;
+    text-align: left;
+    width: 100%;
+}
+
 label:not(.close-menu):not(.open-menu) {
     display: block;
     margin-bottom: 8px;
@@ -63,15 +71,15 @@ input:not([type="checkbox"]) {
     margin-bottom: 1rem;
     box-sizing: border-box;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 0.5rem;
 }
 
 button {
     background-color: #4caf50;
     color: white;
-    padding: 10px;
+    padding: 1rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 0.5rem;
     cursor: pointer;
     font-size: 16px;
 }
