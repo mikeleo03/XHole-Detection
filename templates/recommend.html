@@ -1,22 +1,54 @@
-<h1>Read</h1>
-<button type="button" onclick="window.location.href='/read'">Read Data</button>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ title }}</title>
+        
+        <link rel="icon" href="{{ url_for('static', filename='images/logo.jpg') }}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.jpg') }}" type="image/x-icon">
 
-<h1>Insert</h1>
-<form action="/insert">
-    Name: <input name="name" type="text" /> <br>
-    Address: <input name="address" type="text" /> <br>
-    <input type="submit" />
-</form>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/recommend.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<h1>Delete</h1>
-    <form action="/delete">
-    Name: <input name="name" type="text" /> <br>
-    <input type="submit" />
-</form>
+        <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
+        <script src="{{ url_for('static', filename='scripts/recommend.js') }}"></script>
+    </head>
+    <body>
+        {% include 'components/navbar.html' %}
+        <div class="form-main">
+            <h1>Form</h1>
+            <form action="/submit" method="post">
+                <label for="dropdown" data-info-content="Please choose an option.">Multiple Choice:</label>
+                <select name="dropdown" id="dropdown">
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <!-- Add more options as needed -->
+                </select>
+                <div id="dropdown-info" class="info"></div>
 
-<h1>Update</h1>
-    <form action="/update">
-    Name: <input name="name" type="text" /> <br>
-    New Address: <input name="new_address" type="text" /> <br>
-    <input type="submit" />
-</form>
+                <label for="number" data-info-content="Please enter a positive number.">Number (Positive):</label>
+                <input type="number" name="number" id="number" min="0" required>
+                <div id="number-info" class="info"></div>
+
+                <label for="dropdown1">Multiple Choice:</label>
+                <select name="dropdown1" id="dropdown1">
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <!-- Add more options as needed -->
+                </select>
+                <div id="dropdown1-info" class="info"></div>
+
+                <label for="number1">Number (Positive):</label>
+                <input type="number" name="number" id="number1" min="0" required>
+                <div id="number1-info" class="info"></div>
+
+                <button type="submit">Submit</button>
+            </form>
+        <div>
+
+        <div id="overlay"></div>    
+    </body>
+</html>

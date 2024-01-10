@@ -39,7 +39,7 @@ if __name__ == '__main__':
     print("Fragmentation size:", fragmentation_size)
     
     # 3. Rosin-Rammler Calculations
-    stdev_drilling_accuracy = 5
+    stdev_drilling_accuracy = 4.5
     corrected_burden = kuzram_class.get_corrected_burden()
     print("Corrected Burden:", corrected_burden)
     rossin_rammler_class = Rosin_Rammler(stdev_drilling_accuracy, corrected_burden, fragmentation_size, blasthole_diameter, high_level)
