@@ -100,7 +100,6 @@ def submit_form():
         # Calculating the rock factor
         rock_factor_class = Rock_Factor(rock_mass_description, joint_plane_spacing, joint_plane_orientation, specific_gravity, hardness)
         rock_factor = rock_factor_class.run()
-        print("Rock factor:", rock_factor)
         
         # 2. Kuz Ram Fragmentation
         high_level = float(request.form['level'])
@@ -118,10 +117,8 @@ def submit_form():
         # 3. Rosin-Rammler Calculations
         stdev_drilling_accuracy = float(request.form['stdevdrill'])
         corrected_burden = kuzram_class.get_corrected_burden()
-        stiffness = kuzram_class.get_stiffness()
-        print("Corrected Burden:", corrected_burden)
         rossin_rammler_class = Rosin_Rammler(stdev_drilling_accuracy, corrected_burden, fragmentation_size, blasthole_diameter, high_level)
-        img_data = rossin_rammler_class.run(stiffness)
+        img_data = rossin_rammler_class.run()
 
         # Return a response or redirect to another page
         return render_template('result.html', img_data=img_data, title='XHole Detection Recommendation Result')

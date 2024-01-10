@@ -23,7 +23,7 @@ class Rosin_Rammler:
         self.blasthole_diameter = blasthole_diameter
         self.high_level = high_level
         
-    def __calculate_uniformity_index(self, stiffness):
+    def __calculate_uniformity_index(self):
         '''
             Calculates the uniformity index for given data
             params:
@@ -38,10 +38,10 @@ class Rosin_Rammler:
         cc = self.high_level - t + j
         
         # Calculate value of A
-        a = self.corrected_burden / self.blasthole_diameter
+        a = self.corrected_burden / (self.blasthole_diameter)
+        A = 4 / self.corrected_burden  
         val = 1 - (self.stdev_drilling_accuracy / self.corrected_burden)
-        big_a = stiffness / self.corrected_burden
-        self.uniformity_index = (2.2 - 14 * a / 1000) * val * (1 + (big_a - 1) / 2) * (cc / self.high_level)
+        self.uniformity_index = (2.2 - 14 * a/1000) * val * (1 + (A - 1) / 2) * (cc / self.high_level)
     
     def calculate_distribution(self, sieve_size):
         '''
@@ -57,12 +57,12 @@ class Rosin_Rammler:
         dist = math.exp(-((sieve_size / xc) ** self.uniformity_index)) * 100
         return dist
         
-    def run(self, stiffness):
+    def run(self):
         '''
             Run Rossin Ramler calculations
         '''
         # Calculate the needed parameters
-        self.__calculate_uniformity_index(stiffness)
+        self.__calculate_uniformity_index()
         print(self.uniformity_index)
         sieve_size_data = []
         percent_data = []

@@ -38,6 +38,18 @@ class KuzRam_Fragmentation:
         '''
         return self.stiffness
     
+    def get_rock_volume(self):
+        '''
+            Getter of rock volume
+        '''
+        return self.rock_volume
+    
+    def get_explosive_mass(self):
+        '''
+            Getter of explosive mass
+        '''
+        return self.explosive_mass
+    
     def __calculate_rock_volume(self):
         '''
             Calculate the rock volume
@@ -57,7 +69,7 @@ class KuzRam_Fragmentation:
                 rock_density (rho2) = Massa jenis batuan, pound cubic ft
                 blasthole_diameter (D) = Diameter lubang, m
         '''
-        af1 = pow((self.explosives_density * pow(self.detonation_speed, 2) / (1.2 * pow(1200, 2))), (1/3))     # Calculate explosives adjustment
+        af1 = pow((self.explosives_density * pow(self.detonation_speed, 2) / (1.2 * pow(12000, 2))), (1/3))     # Calculate explosives adjustment
         af2 = pow((160 / self.rock_density), (1/3))     # Calculate rock adjustment
         Kbstd = 30
         self.burden = self.blasthole_diameter * Kbstd * af1 * af2
@@ -129,6 +141,7 @@ class KuzRam_Fragmentation:
         r = 1/2 * self.blasthole_diameter
         t = 0.7 * self.corrected_burden         # Stemming depth, m
         j = 0.2 * self.corrected_burden         # The thickness of the rock to be crushed (subdrill), m
+        self.coloumn_charge = self.high_level - t + j
         self.explosive_mass = math.pi * pow(r, 2) * (self.high_level - t + j) * self.explosives_density * 1000
     
     def run(self, rock_factor, rock_deposition, geologic_structure, number_of_rows, ignition_method):
@@ -152,8 +165,6 @@ class KuzRam_Fragmentation:
         
         # Calculate the fragmentation size
         x = rock_factor * pow((self.rock_volume / self.explosive_mass),  0.8) * pow(self.explosive_mass, (1 / 6)) * pow((self.blasting_energy / 115), (-19 / 30))
-        x *= 10  # Convert into mm
-        
         # Return the value
         return round(x, 3)
     

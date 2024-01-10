@@ -1,6 +1,7 @@
 from Rock_Factor import Rock_Factor
 from KuzRam_Fragmentation import KuzRam_Fragmentation
 from Rosin_Rammler import Rosin_Rammler
+from Cost_Calculation import Cost_Calculation
 
 if __name__ == '__main__':
     # Setup some initial data needed
@@ -22,16 +23,15 @@ if __name__ == '__main__':
     # Calculating the rock factor
     rock_factor_class = Rock_Factor(rock_mass_description, joint_plane_spacing, joint_plane_orientation, specific_gravity, hardness)
     rock_factor = rock_factor_class.run()
-    print("Rock factor:", rock_factor)
     
     # 2. Kuz Ram Fragmentation
-    blasthole_diameter = 0.03       # Minimum diameter, m
+    blasthole_diameter = 0.05    # Minimum diameter, m
     high_level = 10
     ignition_method = True          # Serentak
     
     rock_deposition = 1             # steeply dipping into cut
     geologic_structure = 3          # massive intact rock
-    number_of_rows = 2              # Jumlah baris lubang ledak = 2      
+    number_of_rows = 2              # Jumlah baris lubang ledak = 2           
     
     # Calculating the fragmentation size
     kuzram_class = KuzRam_Fragmentation(explosives_density, detonation_speed, blasting_energy, rock_density, blasthole_diameter, high_level)
@@ -39,10 +39,16 @@ if __name__ == '__main__':
     print("Fragmentation size:", fragmentation_size)
     
     # 3. Rosin-Rammler Calculations
-    stdev_drilling_accuracy = 4.5
+    stdev_drilling_accuracy = 5
     corrected_burden = kuzram_class.get_corrected_burden()
-    stiffness = kuzram_class.get_stiffness()
-    print("Corrected Burden:", corrected_burden)
     rossin_rammler_class = Rosin_Rammler(stdev_drilling_accuracy, corrected_burden, fragmentation_size, blasthole_diameter, high_level)
-    rossin_rammler_class.run(stiffness)
+    rossin_rammler_class.run()
+    
+    # 4. Cost_Calculation
+    rock_volume = kuzram_class.get_rock_volume()
+    explosive_mass = kuzram_class.get_explosive_mass()
+    daily_target = 25000 # bcm/day
+    cost_calculation_class = Cost_Calculation(rock_volume, explosive_mass, daily_target, coloumn_charge)
+    cost_calculation = cost_calculation_class.run()
+    print("cost calc:", cost_calculation)
     
