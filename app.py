@@ -34,13 +34,16 @@ except Exception as e:
 db = client.xhole
 stone_data = db.stone
 
+# Repository
 def get_rock_options():
-    # Replace this with your actual MongoDB query logic
-    # For example, you might use a MongoDB client library
-    # to connect to your database and fetch the data
-    options = ["Option 1", "Option 2", "Option 3"]
-    return options
+    # Retrieve all documents from the collection
+    cursor = stone_data.find({})
 
+    # Extract "rock" attribute values from each document
+    rock_values = [doc.get("rock") for doc in cursor]
+    return rock_values
+
+# List of endpoint
 @app.route('/')
 def home():
     apps = ['detector']  # Replace with your actual app names
@@ -65,10 +68,16 @@ def submit_form():
         # Access form data
         # 0. Setup rock and explosives
         rock_type = request.form['rock']
+        # Define the query to retrieve the single document with the specified stone name
+        query = {"rock": rock_type}
+        # Define the projection to include the three additional attributes
+        projection = {"rock": 1, "hardness": 1, "sg": 1, "rho2": 1, "_id": 0}
+        # Retrieve the single document based on the query and projection
+        result = stone_data.find_one(query, projection)
         # Ambil 3 constant utamanya
-        specific_gravity = 2.9
-        hardness = 6.09
-        rock_density = 181.0412
+        specific_gravity = result['sg']
+        hardness = result['hardness']
+        rock_density = result['rho2']
         
         explosive_type = request.form['explosives']
         blasting_energy = 0
@@ -80,8 +89,8 @@ def submit_form():
             blasting_energy = 100
             blasthole_diameter = 0.03
             
-        explosives_density = request.form['expdensity']
-        detonation_speed = request.form['detspeed']
+        explosives_density = float(request.form['expdensity'])
+        detonation_speed = float(request.form['detspeed'])
         
         # 1. Rock Factor
         rock_mass_description = request.form['rmd']
@@ -94,12 +103,12 @@ def submit_form():
         print("Rock factor:", rock_factor)
         
         # 2. Kuz Ram Fragmentation
-        high_level = request.form['level']
+        high_level = float(request.form['level'])
         ignition_method = request.form['ignition']
         
         rock_deposition = request.form['rockdepo']
         geologic_structure = request.form['geostruc']
-        number_of_rows = request.form['rows']  
+        number_of_rows = float(request.form['rows'])  
         
         # Calculating the fragmentation size
         kuzram_class = KuzRam_Fragmentation(explosives_density, detonation_speed, blasting_energy, rock_density, blasthole_diameter, high_level)
@@ -107,20 +116,15 @@ def submit_form():
         print("Fragmentation size:", fragmentation_size)
         
         # 3. Rosin-Rammler Calculations
-        stdev_drilling_accuracy = request.form['stdevdrill']
+        stdev_drilling_accuracy = float(request.form['stdevdrill'])
         corrected_burden = kuzram_class.get_corrected_burden()
         stiffness = kuzram_class.get_stiffness()
         print("Corrected Burden:", corrected_burden)
         rossin_rammler_class = Rosin_Rammler(stdev_drilling_accuracy, corrected_burden, fragmentation_size, blasthole_diameter, high_level)
-        rossin_rammler_class.run(stiffness)
-
-        # Perform any necessary processing, for example, store in MongoDB or run calculations
+        img_data = rossin_rammler_class.run(stiffness)
 
         # Return a response or redirect to another page
-        return render_template('result.html', result="Form submitted successfully!")
-
-    # Handle other HTTP methods or redirect to form page
-    return render_template('form_page.html')
+        return render_template('result.html', img_data=img_data, title='XHole Detection Recommendation Result')
 
 # Examples of basic CRUD methods
 @app.route("/read")

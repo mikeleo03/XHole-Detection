@@ -1,5 +1,7 @@
 import math
 import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 
 class Rosin_Rammler:
     '''
@@ -38,7 +40,7 @@ class Rosin_Rammler:
         # Calculate value of A
         a = self.corrected_burden / self.blasthole_diameter
         val = 1 - (self.stdev_drilling_accuracy / self.corrected_burden)
-        big_a = stifness / self.corrected_burden
+        big_a = stiffness / self.corrected_burden
         self.uniformity_index = (2.2 - 14 * a / 1000) * val * (1 + (big_a - 1) / 2) * (cc / self.high_level)
     
     def calculate_distribution(self, sieve_size):
@@ -80,4 +82,16 @@ class Rosin_Rammler:
         plt.xlabel("Fragmentasi (cm)")                          # add X-axis label 
         plt.ylabel("Presentase Lolos (%)")                      # add Y-axis label 
         plt.title("Estimasi Hasil Fragmentasi Peledakan")       # add title 
-        plt.show()
+        
+        # Instead of plt.show(), save the plot to a BytesIO object
+        img_buf = BytesIO()
+        plt.savefig(img_buf, format='png')
+        img_buf.seek(0)
+
+        # Encode the image as base64 to embed it in the HTML
+        img_data = base64.b64encode(img_buf.read()).decode('utf-8')
+
+        # Clear the plot to avoid interfering with subsequent plots
+        plt.clf()
+
+        return img_data  # You can return this data to your Flask route

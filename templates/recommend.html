@@ -44,11 +44,11 @@
                     <div id="explosives-info" class="info"></div>
 
                     <label for="expdensity">Explosive Density (gr/cc)</label>
-                    <input type="number" name="expdensity" id="expdensity" min="0" required>
+                    <input type="text" name="expdensity" id="expdensity" pattern="[0-9]+(\.[0-9]+)?" required>
                     <div id="expdensity-info" class="info"></div>
 
                     <label for="detspeed">Detonation Speed (ft/s)</label>
-                    <input type="number" name="detspeed" id="detspeed" min="0" required>
+                    <input type="text" name="detspeed" id="detspeed" pattern="[0-9]+(\.[0-9]+)?" required>
                     <div id="detspeed-info" class="info"></div>
 
                     <!-- Kalo blasting energy, ANFO = 100, TNT = 115 -->
@@ -82,7 +82,7 @@
                     <h2 class="subtitle">Kuz-Ram Parameters</h2>
                     <!-- Kalo blasthole diameter (minimum), ANFO = 0.03, TNT = 0.005 -->
                     <label for="level">High Level (m)</label>
-                    <input type="number" name="level" id="level" min="0" required>
+                    <input type="text" name="level" id="level" pattern="[0-9]+(\.[0-9]+)?" required>
                     <div id="level-info" class="info"></div>
 
                     <label for="ignition">Ignition Method</label>
@@ -109,12 +109,12 @@
                     <div id="geostruc-info" class="info"></div>
 
                     <label for="rows">Number of Rows</label>
-                    <input type="number" name="rows" id="rows" min="0" required>
+                    <input type="text" name="rows" id="rows" pattern="[0-9]+(\.[0-9]+)?" required>
                     <div id="rows-info" class="info"></div>
                     
                     <h2 class="subtitle">Rosin-Rammler Parameters</h2>
                     <label for="stdevdrill">Standard Deviataion of Drilling Accuracy</label>
-                    <input type="number" name="stdevdrill" id="stdevdrill" min="0" required>
+                    <input type="text" name="stdevdrill" id="stdevdrill" pattern="[0-9]+(\.[0-9]+)?" required>
                     <div id="stdevdrill-info" class="info"></div>
 
                     <button type="submit">Give me the best advice!</button>

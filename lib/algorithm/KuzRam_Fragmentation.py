@@ -32,7 +32,7 @@ class KuzRam_Fragmentation:
         '''
         return self.corrected_burden
     
-    def get_stifness(self):
+    def get_stiffness(self):
         '''
             Getter of stifness
         '''
