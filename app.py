@@ -62,7 +62,7 @@ def recommend():
     rock_options = get_rock_options()
     return render_template('recommend.html', title='XHole Detection Recommendation', rock_options=rock_options)
 
-@app.route('/result', methods=['POST']
+@app.route('/result', methods=['POST'])
 def submit_form():
     if request.method == 'POST':
         # Access form data
