@@ -125,12 +125,55 @@ def submit_form():
         rossin_rammler_class = Rosin_Rammler(stdev_drilling_accuracy, corrected_burden, fragmentation_size, blasthole_diameter, high_level)
         rossin_rammler_class.run()
         img_data = rossin_rammler_class.img_data
+        space = kuzram_class.get_stiffness()
 
+        # 4. Cost_Calculation
+        rock_volume = kuzram_class.get_rock_volume()
+        explosive_mass = kuzram_class.get_explosive_mass()
+        daily_target = 25000    # bcm/day
+        coloumn_charge = rossin_rammler_class.get_coloumn_charge()
+        cost_calculation_class = Cost_Calculation(rock_volume, explosive_mass, daily_target, coloumn_charge)
+        cost_calculation = cost_calculation_class.run()
+        print("Cost calc:", cost_calculation)
+        
+        # Create a dictionary to store all the data
+        template_data = {
+            'title': 'XHole Detection Recommendation Result',
+            'blasthole_diameter': blasthole_diameter,
+            'corrected_burden': corrected_burden,
+            'space': space,
+            'length': high_level,
+            'stemming': 0.7 * corrected_burden,
+            'subdrill': 0.2 * corrected_burden,
+            'amount_of_explosives': explosive_mass,
+            'powder_factor': cost_calculation_class.get_powder_factor(),
+            'number_of_blastholes': cost_calculation_class.get_holes_number(),
+            'avg_fragmentation_size': fragmentation_size,
+            'cost_estimation': cost_calculation,
+            'img_data': img_data
+        }
+    
         # Return a response or redirect to another page
-        return render_template('result.html', img_data=img_data, title='XHole Detection Recommendation Result')
+        return render_template('result.html', **template_data)
     
     else:
-        return render_template('result2.html', title='XHole Detection Recommendation Result Demo')
+        # Create a dictionary to store all the data
+        template_data = {
+            'title': 'XHole Detection Recommendation Result',
+            'blasthole_diameter': 30,
+            'corrected_burden': 30,
+            'space': 100,
+            'length': 2000,
+            'stemming': 0.7 * 30,
+            'subdrill': 0.2 * 30,
+            'amount_of_explosives': 2000,
+            'powder_factor': 1000,
+            'number_of_blastholes': 5689,
+            'avg_fragmentation_size': 3458,
+            'cost_estimation': 2000000
+        }
+        
+        return render_template('result2.html', **template_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

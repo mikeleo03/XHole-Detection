@@ -24,7 +24,7 @@ body {
     display: flex;
     flex: 1;
     padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-bottom: 2rem;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -32,5 +32,67 @@ body {
 }
 
 .result-plot img {
-    width: 90vw;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    width: 85vw;
+    border-radius: 10px;
+}
+
+/* Style for the result-analysis div containing the table */
+.result-analysis {
+    overflow: hidden;
+    background: var(--color2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--color5);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    color: var(--color5);
+}
+
+/* Style for the table */
+table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--color2);
+    background: var(--color1);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 1rem;
+}
+
+/* Style for table header */
+th {
+    background-color: var(--color5);
+    color: var(--color1);
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid var(--color3);
+}
+
+/* Style for table cells */
+td, th {
+    border: 1px solid var(--color3);
+    padding: 12px;
+    text-align: left;
+}
+
+/* Hover effect on table rows */
+tr:hover {
+    background-color: var(--color7);
+}
+
+/* Alternate row background color */
+tr:nth-child(even) {
+    background-color: var(--color7);
 }

@@ -16,6 +16,18 @@ class Cost_Calculation:
         self.explosive_mass = explosive_mass
         self.daily_target = daily_target
         self.coloumn_charge = coloumn_charge
+        
+    def get_powder_factor(self):
+        '''
+            Getter of powder factor
+        '''
+        return self.powder_factor
+    
+    def get_holes_number(self):
+        '''
+            Getter of holes number
+        '''
+        return self.holes_number
 
     def __calculate_powder_factor(self):
         '''
