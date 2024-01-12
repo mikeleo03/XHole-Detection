@@ -64,33 +64,51 @@ class Rosin_Rammler:
         dist = math.exp(-((sieve_size / xc) ** self.uniformity_index)) * 100
         return dist
 
-    def run(self):
+    def calculate_rossin(self, value):
         '''
             Run Rossin Ramler calculations
         '''
         # Calculate the needed parameters
         self.__calculate_uniformity_index()
-        print(self.uniformity_index)
-        sieve_size_data = []
-        percent_data = []
+        self.sieve_size_data = []
+        self.percent_data = []
 
         # Run for sieve_size from 1 - 1000
-        for sieve_size in range(1, 1000):
+        for sieve_size in range(1, value + 1):
             # Calculate the distribution
             dist = self.calculate_distribution(sieve_size)
 
             # Print the result
-            sieve_size_data.append(sieve_size)
-            percent_data.append(dist)
-            print(sieve_size, dist)
+            self.sieve_size_data.append(sieve_size)
+            self.percent_data.append(dist)
+                
+    def get_rossin_data(self):
+        '''
+            Getter of rossin data
+        '''
+        return self.sieve_size_data, self.percent_data
+            
+    def is_good(self):
+        '''
+            Good blasting is have at least 80% on rossin distribution
+        '''
+        return max(self.percent_data) >= 80
 
+    def run(self, value):
+        '''
+            Plot Rossin Ramler calculations
+        '''
+        # Run the calculation
+        self.calculate_rossin(value)
+        
         # Plot the data
-        plt.plot(sieve_size_data, percent_data)
+        plt.plot(self.sieve_size_data, self.percent_data)
         plt.xlabel("Fragmentasi (cm)")  # add X-axis label
         plt.ylabel("Presentase Lolos (%)")  # add Y-axis label
         plt.title("Estimasi Hasil Fragmentasi Peledakan")  # add title
+        plt.show()
 
-        # Save the plot to a BytesIO object
+        """ # Save the plot to a BytesIO object
         img_buf = BytesIO()
         plt.savefig(img_buf, format='png')
         img_buf.seek(0)
@@ -99,4 +117,4 @@ class Rosin_Rammler:
         self.img_data = base64.b64encode(img_buf.read()).decode('utf-8')
 
         # Clear the plot
-        plt.clf()
+        plt.clf() """
