@@ -66,7 +66,8 @@ def recommend():
     rock_options = get_rock_options()
     return render_template('recommend.html', title='XHole Detection Recommendation', rock_options=rock_options)
 
-@app.route('/result', methods=['POST'])
+# @app.route('/result', methods=['POST'])
+@app.route('/result')
 def submit_form():
     if request.method == 'POST':
         # Access form data
@@ -127,6 +128,9 @@ def submit_form():
 
         # Return a response or redirect to another page
         return render_template('result.html', img_data=img_data, title='XHole Detection Recommendation Result')
+    
+    else:
+        return render_template('result2.html', title='XHole Detection Recommendation Result Demo')
 
 if __name__ == '__main__':
     app.run(debug=True)

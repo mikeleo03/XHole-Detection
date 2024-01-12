@@ -48,7 +48,8 @@ if __name__ == '__main__':
     rock_volume = kuzram_class.get_rock_volume()
     explosive_mass = kuzram_class.get_explosive_mass()
     daily_target = 25000 # bcm/day
+    coloumn_charge = rossin_rammler_class.get_coloumn_charge()
     cost_calculation_class = Cost_Calculation(rock_volume, explosive_mass, daily_target, coloumn_charge)
     cost_calculation = cost_calculation_class.run()
-    print("cost calc:", cost_calculation)
+    print("Cost calc:", cost_calculation)
     

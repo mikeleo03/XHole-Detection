@@ -64,7 +64,7 @@ class Cost_Calculation:
         self.__calculate_blasting_cost()
 
         # Calculate cost
-        cost = self.drilling_cost + blasting_cost
+        cost = self.drilling_cost + self.blasting_cost
         
         # Return the value
         return round(cost, 3)

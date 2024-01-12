@@ -36,14 +36,20 @@ class Rosin_Rammler:
         # Calculate CC value
         t = 0.7 * self.corrected_burden         # Stemming depth, m
         j = 0.2 * self.corrected_burden         # The thickness of the rock to be crushed (subdrill), m
-        cc = self.high_level - t + j
+        self.coloumn_charge = self.high_level - t + j
 
         # Calculate value of A
         a = self.corrected_burden / (self.blasthole_diameter)
         A = 4 / self.corrected_burden
         val = 1 - (self.stdev_drilling_accuracy / self.corrected_burden)
-        self.uniformity_index = (2.2 - 14 * a / 1000) * val * (1 + (A - 1) / 2) * (cc / self.high_level)
+        self.uniformity_index = (2.2 - 14 * a / 1000) * val * (1 + (A - 1) / 2) * (self.coloumn_charge / self.high_level)
 
+    def get_coloumn_charge(self):
+        '''
+            Getter of coloumn charge
+        '''
+        return self.coloumn_charge
+    
     def calculate_distribution(self, sieve_size):
         '''
             Calculate the distribution of x_hat presentation
