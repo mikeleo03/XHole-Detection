@@ -38,20 +38,22 @@ form {
     width: 90%;
     max-width: 400px;
     margin: auto;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .title {
-    font-size: xx-large;
-    padding-bottom: 1rem;
+    font-size: 1.5rem;
+    color: var(--color5);
 }
 
 .subtitle {
     font-size: large;
     padding-bottom: 1rem;
-    color: #888;
+    color: var(--color6);
     text-align: left;
     width: 100%;
 }

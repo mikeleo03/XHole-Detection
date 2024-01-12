@@ -24,9 +24,8 @@
                 <h1>Fixed Top Part</h1>
             </div>
             <div class="form-main">
+                <h1 class="title">Recommendation System</h1>
                 <form action="/result" method="post">
-                    <h1 class="title">Recommendation System</h1>
-                    
                     <h2 class="subtitle">Rock and Explosives</h2>
                     <label for="rock">Rock Type</label>
                     <select name="rock" id="rock">
@@ -116,6 +115,10 @@
                     <label for="stdevdrill">Standard Deviataion of Drilling Accuracy</label>
                     <input type="text" name="stdevdrill" id="stdevdrill" pattern="[0-9]+(\.[0-9]+)?" required>
                     <div id="stdevdrill-info" class="info"></div>
+
+                    <label for="jaw">Gap Jaw Crusher (m)</label>
+                    <input type="text" name="jaw" id="jaw" pattern="[0-9]+(\.[0-9]+)?" required>
+                    <div id="jaw-info" class="info"></div>
 
                     <button type="submit">Give me the best advice!</button>
                 </form>

@@ -22,6 +22,59 @@
                 <!-- Content for fixed top part -->
                 <h1>Fixed Top Part</h1>
             </div>
+            <div class="result-analysis">
+                <h1 class="title">Analysis Results</h1>
+                <table>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Blast Hole Diameter (m)</td>
+                        <td>{{ blasthole_diameter }}</td>
+                    </tr>
+                    <tr>
+                        <td>Corrected Burden (m)</td>
+                        <td>{{ corrected_burden }}</td>
+                    </tr>
+                    <tr>
+                        <td>Space (m)</td>
+                        <td>{{ space }}</td>
+                    </tr>
+                    <tr>
+                        <td>Length (m)</td>
+                        <td>{{ length }}</td>
+                    </tr>
+                    <tr>
+                        <td>Stemming (m)</td>
+                        <td>{{ stemming }}</td>
+                    </tr>
+                    <tr>
+                        <td>Subdrill (m)</td>
+                        <td>{{ subdrill }}</td>
+                    </tr>
+                    <tr>
+                        <td>Amount of Explosives (kg)</td>
+                        <td>{{ amount_of_explosives }}</td>
+                    </tr>
+                    <tr>
+                        <td>Powder Factor</td>
+                        <td>{{ powder_factor }}</td>
+                    </tr>
+                    <tr>
+                        <td>Number of Blast Holes</td>
+                        <td>{{ number_of_blastholes }}</td>
+                    </tr>
+                    <tr>
+                        <td>Average Fragmentation Size (cm)</td>
+                        <td>{{ avg_fragmentation_size }}</td>
+                    </tr>
+                    <tr>
+                        <td>Cost Estimation (Rp)</td>
+                        <td>{{ cost_estimation }}</td>
+                    </tr>
+                </table>
+            </div>
             <div class="result-plot">
                 <img src="data:image/png;base64,{{ img_data }}" alt="Plot">
             </div>
