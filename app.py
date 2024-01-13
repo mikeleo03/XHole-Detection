@@ -8,6 +8,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
 import os
+import locale
 
 app = Flask(__name__)
 
@@ -47,6 +48,13 @@ def get_rock_options():
 @app.route('/static/plot.png')
 def serve_plot():
     return send_from_directory('static', 'plot.png')
+
+# Register a custom Jinja filter for formatting currency
+def format_currency(value):
+    locale.setlocale(locale.LC_ALL, 'id_ID')  # Set the locale to Indonesian
+    return locale.currency(value, grouping=True)
+
+app.jinja_env.filters['format_currency'] = format_currency
 
 # List of endpoint
 @app.route('/')
@@ -188,16 +196,16 @@ def submit_form():
         template_data = {
             'title': 'XHole Detection Recommendation Result',
             'blasthole_diameter': blasthole_diameter,
-            'corrected_burden': corrected_burden,
-            'space': space,
+            'corrected_burden': round(corrected_burden, 4),
+            'space': round(space, 4),
             'length': high_level,
-            'stemming': 0.7 * corrected_burden,
-            'subdrill': 0.2 * corrected_burden,
-            'amount_of_explosives': explosive_mass,
-            'powder_factor': cost_calculation_class.get_powder_factor(),
-            'number_of_blastholes': cost_calculation_class.get_holes_number(),
+            'stemming': round(0.7 * corrected_burden, 4),
+            'subdrill': round(0.2 * corrected_burden, 4),
+            'amount_of_explosives': round(explosive_mass, 4),
+            'powder_factor': round(cost_calculation_class.get_powder_factor(), 4),
+            'number_of_blastholes': int(cost_calculation_class.get_holes_number()),
             'avg_fragmentation_size': fragmentation_size,
-            'cost_estimation': cost_calculation,
+            'cost_estimation': int(cost_calculation),
             'img_data': img_data
         }
     

@@ -71,7 +71,7 @@
                     </tr>
                     <tr>
                         <td>Cost Estimation (Rp)</td>
-                        <td>{{ cost_estimation }}</td>
+                        <td>{{ cost_estimation|format_currency }}</td>
                     </tr>
                 </table>
             </div>
@@ -81,9 +81,10 @@
             </div>
             <div class="action">
                 <h1 class="title">Recomended Action(s)</h1>
+                <div class="recom">here</div>
             </div>
         </div>
 
-        <div id="overlay"></div>    
+        <div id="overlay"></div>   
     </body>
 </html>

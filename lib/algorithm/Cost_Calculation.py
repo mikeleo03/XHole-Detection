@@ -27,7 +27,7 @@ class Cost_Calculation:
         '''
             Getter of holes number
         '''
-        return self.holes_number
+        return self.holes_number 
 
     def __calculate_powder_factor(self):
         '''
@@ -47,6 +47,20 @@ class Cost_Calculation:
         '''
         self.holes_number = self.daily_target / self.rock_volume
 
+    def get_rock_breaker_time(self):
+        '''
+            Getter of rock breaker time
+        '''
+        return self.rock_breaker_time  
+
+    def __calculate_rock_breaker_time(self):
+        '''
+            Calculate the rock breaker time
+            params:
+                daily target = Jumlah volume batuan yang diledakkan per hari, m^3
+        '''
+        self.rock_breaker_time = self.daily_target * 0.8 / 5    # Caterpillar 320D2: 582 joules per blow, significantly higher than the JCB 3DX, translates to a potential breaking capacity of 2 - 5 cubic meters per hour under ideal conditions.
+
     def __calculate_drilling_cost(self):
         '''
             Calculate the number of holes
@@ -58,12 +72,19 @@ class Cost_Calculation:
 
     def __calculate_blasting_cost(self):
         '''
-            Calculate the number of holes
+            Calculate the blasting cost
             params:
-                holes_number = Jumlah lubang ledak sekali peledakan (dianggap peledakan sehari sekali), m^3
-                coloumn_charge = tinggi lubang yang terisi bahan peledak per lubang, m^3
+                rock_volume = Volume batuan yang diledakkan per lubang ledak, m^3
         '''
         self.blasting_cost = self.rock_volume * 18253   # 18253 adalah cost per m^3 batuan yang diledakkan
+    
+    def __calculate_rock_breaker_cost(self):
+        '''
+            Calculate the rock breaker cost
+            params:
+                rock_breaker_time = Waktu yang dibutuhkan untuk Rrock breaker menghancurkan batuan dari fragmentasi batuan yang melebihi Kuz Ram Fragmentation (jam)
+        '''
+        self.rock_breaker_cost = self.rock_breaker_time * 4000000   # Based on these factors, the rental rate for a Caterpillar 320D2 rock breaker in Indonesia can range from approximately Rp 3,000,000 to Rp 5,000,000 per hour.
     
     def run(self):
         '''
@@ -72,11 +93,15 @@ class Cost_Calculation:
         # Calculate the parameters
         self.__calculate_powder_factor()
         self.__calculate_holes_number()
+        self.__calculate_rock_breaker_time()
         self.__calculate_drilling_cost()
         self.__calculate_blasting_cost()
+        self.__calculate_rock_breaker_cost()
 
         # Calculate cost
-        cost = self.drilling_cost + self.blasting_cost
+        cost1 = self.drilling_cost + self.blasting_cost
+        cost2 = self.rock_breaker_cost
+        cost = cost1 + cost2
         
         # Return the value
         return round(cost, 3)
