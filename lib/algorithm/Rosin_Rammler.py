@@ -88,11 +88,11 @@ class Rosin_Rammler:
         '''
         return self.sieve_size_data, self.percent_data
             
-    def is_good(self):
+    def get_image_data(self):
         '''
-            Good blasting is have at least 80% on rossin distribution
+            Getter of image data
         '''
-        return max(self.percent_data) >= 80
+        return self.img_data
 
     def run(self, value, x_highlight, y_highlight, x_kuzram):
         '''

@@ -112,19 +112,67 @@ def submit_form():
         
         rock_deposition = request.form['rockdepo']
         geologic_structure = request.form['geostruc']
-        number_of_rows = float(request.form['rows'])  
+        number_of_rows = float(request.form['rows'])
+        gap_jaw_crusher = int(request.form['jaw'])
+        x_kuzram = 0.8 * gap_jaw_crusher
+        stdev_drilling_accuracy = float(request.form['stdevdrill'])  
         
-        # Calculating the fragmentation size
-        kuzram_class = KuzRam_Fragmentation(explosives_density, detonation_speed, blasting_energy, rock_density, blasthole_diameter, high_level)
-        fragmentation_size = kuzram_class.run(rock_factor, rock_deposition, geologic_structure, number_of_rows, ignition_method)
-        print("Fragmentation size:", fragmentation_size)
+        # 2. Calculating the fragmentation size
+        fragmentation_size = 0       # Initial fragmentation size, m
+        while (fragmentation_size < x_kuzram):
+            # Kuz-Ram Calculations
+            kuzram_class = KuzRam_Fragmentation(explosives_density, detonation_speed, blasting_energy, rock_density, blasthole_diameter, high_level)
+            fragmentation_size = kuzram_class.run(rock_factor, rock_deposition, geologic_structure, number_of_rows, ignition_method)
+            print("diameter, size:", blasthole_diameter, fragmentation_size)
+            if (fragmentation_size < x_kuzram):
+                blasthole_diameter += 0.01
+            
+        print("Expected diameter:", round(blasthole_diameter, 2))
         
-        # 3. Rosin-Rammler Calculations
-        stdev_drilling_accuracy = float(request.form['stdevdrill'])
-        corrected_burden = kuzram_class.get_corrected_burden()
-        rossin_rammler_class = Rosin_Rammler(stdev_drilling_accuracy, corrected_burden, fragmentation_size, blasthole_diameter, high_level)
-        rossin_rammler_class.run()
-        img_data = rossin_rammler_class.img_data
+        # 3. Validate the diameter quality
+        good_diameter = False
+        corrected_burden = 0
+        while (not good_diameter):
+            # Rosin-Rammler Calculations
+            corrected_burden = kuzram_class.get_corrected_burden()
+            rossin_rammler_class = Rosin_Rammler(stdev_drilling_accuracy, corrected_burden, fragmentation_size, blasthole_diameter, high_level)
+            rossin_rammler_class.calculate_rossin(int(2.25 * x_kuzram))
+            sieve_size_data, percent_data = rossin_rammler_class.get_rossin_data()
+        
+            # Doing reggression with all those data and get the sieve_size_data when percent_data = 80
+            pos = len(sieve_size_data) - 1
+            x_val1 = sieve_size_data[pos]
+            y_val1 = percent_data[pos]
+            print("Init value, pos:", x_val1, y_val1, pos)
+            while (y_val1 > 80):
+                y_val1 = percent_data[pos]
+                x_val1 = sieve_size_data[pos]
+                pos -= 1
+            
+            # Gather the larger one
+            y_val2 = percent_data[pos+2]
+            x_val2 = sieve_size_data[pos+2]
+            
+            # Normalize values
+            y_nom2 = y_val2 - 80
+            y_nom1 = 80 - y_val1
+            y_fix2 = y_nom2 / (y_nom1 + y_nom2)
+            y_fix1 = y_nom1 / (y_nom1 + y_nom2)
+            
+            # Weighting process
+            x_val = x_val1 * y_fix1 + x_val2 * y_fix2
+            print(x_val1, y_fix1, x_val2, y_fix2)
+            print("X Val:", x_val)
+            
+            # Conditions
+            if (x_val >= x_kuzram):
+                good_diameter = True
+            else:
+                blasthole_diameter -= 0.01
+            
+        print("Final expected diameter:", round(blasthole_diameter, 2))
+        rossin_rammler_class.run(int(2.25 * x_kuzram), round(x_val, 3), 80, x_kuzram)
+        img_data = rossin_rammler_class.get_image_data()
         space = kuzram_class.get_stiffness()
 
         # 4. Cost_Calculation

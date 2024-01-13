@@ -58,18 +58,18 @@ if __name__ == '__main__':
         sieve_size_data, percent_data = rossin_rammler_class.get_rossin_data()
     
         # Doing reggression with all those data and get the sieve_size_data when percent_data = 80
-        x_val1 = sieve_size_data[0]
-        y_val1 = percent_data[0]
-        pos = 0
+        pos = len(sieve_size_data) - 1
+        x_val1 = sieve_size_data[pos]
+        y_val1 = percent_data[pos]
         print("Init value, pos:", x_val1, y_val1, pos)
         while (y_val1 > 80):
             y_val1 = percent_data[pos]
             x_val1 = sieve_size_data[pos]
-            pos += 1
+            pos -= 1
         
         # Gather the larger one
-        y_val2 = percent_data[pos-2]
-        x_val2 = sieve_size_data[pos-2]
+        y_val2 = percent_data[pos+2]
+        x_val2 = sieve_size_data[pos+2]
         
         # Normalize values
         y_nom2 = y_val2 - 80
@@ -83,7 +83,7 @@ if __name__ == '__main__':
         print("X Val:", x_val)
         
         # Conditions
-        if (x_val < x_kuzram):
+        if (x_val >= x_kuzram):
             good_diameter = True
         else:
             blasthole_diameter -= 0.01
