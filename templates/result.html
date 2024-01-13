@@ -81,7 +81,27 @@
             </div>
             <div class="action">
                 <h1 class="title">Recomended Action(s)</h1>
-                <div class="recom">here</div>
+                <div class="recom">
+                    {% if recommended_diameter != 0 %}
+                        <p>What a blast! <br> However, we recommend lowering the blast diameter to {{ recommended_diameter }} m, at a cost of {{ recommended_cost|format_currency }}</p>
+                    {% else %}
+                        <p>The current diameter is the best diameter to produce a quality blast</p>
+                    {% endif %}
+                </div>
+                <div class="recom">
+                    {% if joint_plane_orientation > 1 %}
+                        <p>You can try to use another joint plane orientation with a smaller value, such as</p>
+                        <p> - Horizontal</p>
+                        {% if joint_plane_orientation > 2 %}
+                            <p> - Dip out of Face</p>
+                        {% endif %}
+                        {% if joint_plane_orientation > 3 %}
+                            <p> - Strike Normal to Face</p>
+                        {% endif %}
+                    {% else %}
+                        <p>The current joint plane orientation is the best JPO to produce a quality blast</p>
+                    {% endif %}
+                </div>
             </div>
         </div>
 

@@ -110,3 +110,22 @@ tr:nth-child(even) {
     flex-direction: column;
     text-align: center;
 }
+
+.recom {
+    display: flex;
+    width: 90%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    background-color: var(--color7);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.recom p {
+    font-weight: 400;
+    text-align: left;
+    width: 100%;
+}

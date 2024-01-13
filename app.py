@@ -192,6 +192,32 @@ def submit_form():
         cost_calculation = cost_calculation_class.run()
         print("Cost calc:", cost_calculation)
         
+        # 5. Recommendation section
+        recommendation_diameter = 0
+        cost_calculation1 = 0
+        if (explosive_type == "ANFO" and blasthole_diameter > 0.03):
+            recommendation_diameter = blasthole_diameter - 0.01
+        elif (explosive_type == "TNT" and blasthole_diameter > 0.005):
+            recommendation_diameter = blasthole_diameter - 0.01
+            
+        if (recommendation_diameter != 0):
+            # Kuz-Ram Calculations
+            kuzram_class1 = KuzRam_Fragmentation(explosives_density, detonation_speed, blasting_energy, rock_density, recommendation_diameter, high_level)
+            fragmentation_size1 = kuzram_class1.run(rock_factor, rock_deposition, geologic_structure, number_of_rows, ignition_method)
+            
+            # Rosin-Rammler Calculations
+            corrected_burden1 = kuzram_class1.get_corrected_burden()
+            rossin_rammler_class1 = Rosin_Rammler(stdev_drilling_accuracy, corrected_burden1, fragmentation_size1, recommendation_diameter, high_level)
+            rossin_rammler_class1.calculate_rossin(int(2.25 * x_kuzram))
+            
+            # 4. Cost_Calculation
+            rock_volume1 = kuzram_class1.get_rock_volume()
+            explosive_mass1 = kuzram_class1.get_explosive_mass()
+            coloumn_charge1 = rossin_rammler_class1.get_coloumn_charge()
+            cost_calculation_class1 = Cost_Calculation(rock_volume1, explosive_mass1, daily_target, coloumn_charge1)
+            cost_calculation1 = cost_calculation_class1.run()
+            print("Cost calc:", cost_calculation1)
+        
         # Create a dictionary to store all the data
         template_data = {
             'title': 'XHole Detection Recommendation Result',
@@ -206,7 +232,10 @@ def submit_form():
             'number_of_blastholes': int(cost_calculation_class.get_holes_number()),
             'avg_fragmentation_size': fragmentation_size,
             'cost_estimation': int(cost_calculation),
-            'img_data': img_data
+            'img_data': img_data,
+            'recommended_diameter': recommendation_diameter,
+            'recommended_cost': cost_calculation1,
+            'joint_plane_orientation': joint_plane_orientation
         }
     
         # Return a response or redirect to another page
