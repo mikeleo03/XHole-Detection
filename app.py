@@ -3,6 +3,7 @@ from lib.framegenerator import generate_frames
 from lib.algorithm.Rock_Factor import Rock_Factor
 from lib.algorithm.KuzRam_Fragmentation import KuzRam_Fragmentation
 from lib.algorithm.Rosin_Rammler import Rosin_Rammler
+from lib.algorithm.Cost_Calculation import Cost_Calculation
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
@@ -66,8 +67,7 @@ def recommend():
     rock_options = get_rock_options()
     return render_template('recommend.html', title='XHole Detection Recommendation', rock_options=rock_options)
 
-# @app.route('/result', methods=['POST'])
-@app.route('/result')
+@app.route('/result', methods=['POST'])
 def submit_form():
     if request.method == 'POST':
         # Access form data
@@ -98,9 +98,9 @@ def submit_form():
         detonation_speed = float(request.form['detspeed'])
         
         # 1. Rock Factor
-        rock_mass_description = request.form['rmd']
-        joint_plane_spacing = request.form['jps']
-        joint_plane_orientation = request.form['jpo']
+        rock_mass_description = int(request.form['rmd'])
+        joint_plane_spacing = int(request.form['jps'])
+        joint_plane_orientation = int(request.form['jpo'])
         
         # Calculating the rock factor
         rock_factor_class = Rock_Factor(rock_mass_description, joint_plane_spacing, joint_plane_orientation, specific_gravity, hardness)
@@ -108,14 +108,14 @@ def submit_form():
         
         # 2. Kuz Ram Fragmentation
         high_level = float(request.form['level'])
-        ignition_method = request.form['ignition']
+        ignition_method = bool(request.form['ignition'])
         
-        rock_deposition = request.form['rockdepo']
-        geologic_structure = request.form['geostruc']
-        number_of_rows = float(request.form['rows'])
+        rock_deposition = int(request.form['rockdepo'])
+        geologic_structure = int(request.form['geostruc'])
+        number_of_rows = int(request.form['rows'])
         gap_jaw_crusher = int(request.form['jaw'])
         x_kuzram = 0.8 * gap_jaw_crusher
-        stdev_drilling_accuracy = float(request.form['stdevdrill'])  
+        stdev_drilling_accuracy = float(request.form['stdevdrill'])
         
         # 2. Calculating the fragmentation size
         fragmentation_size = 0       # Initial fragmentation size, m
@@ -203,25 +203,6 @@ def submit_form():
     
         # Return a response or redirect to another page
         return render_template('result.html', **template_data)
-    
-    else:
-        # Create a dictionary to store all the data
-        template_data = {
-            'title': 'XHole Detection Recommendation Result',
-            'blasthole_diameter': 30,
-            'corrected_burden': 30,
-            'space': 100,
-            'length': 2000,
-            'stemming': 0.7 * 30,
-            'subdrill': 0.2 * 30,
-            'amount_of_explosives': 2000,
-            'powder_factor': 1000,
-            'number_of_blastholes': 5689,
-            'avg_fragmentation_size': 3458,
-            'cost_estimation': 2000000
-        }
-        
-        return render_template('result2.html', **template_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

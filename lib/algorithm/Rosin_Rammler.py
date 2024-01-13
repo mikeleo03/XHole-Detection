@@ -111,9 +111,9 @@ class Rosin_Rammler:
         # Add text annotation next to the highlighted point
         plt.text(x_highlight + 1, y_highlight + 3, f'80% Rossin = {x_highlight}', color='red', fontsize=9, ha='left')
         plt.text(1, 4, f'X Kuz-Ram = {x_kuzram}', color='orange', fontsize=9, ha='left', va='bottom')
-        plt.show()
+        # plt.show()
 
-        """ # Save the plot to a BytesIO object
+        # Save the plot to a BytesIO object
         img_buf = BytesIO()
         plt.savefig(img_buf, format='png')
         img_buf.seek(0)
@@ -122,4 +122,4 @@ class Rosin_Rammler:
         self.img_data = base64.b64encode(img_buf.read()).decode('utf-8')
 
         # Clear the plot
-        plt.clf() """
+        plt.clf()

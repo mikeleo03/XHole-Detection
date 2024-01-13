@@ -23,6 +23,7 @@ if __name__ == '__main__':
     # Calculating the rock factor
     rock_factor_class = Rock_Factor(rock_mass_description, joint_plane_spacing, joint_plane_orientation, specific_gravity, hardness)
     rock_factor = rock_factor_class.run()
+    print("rf", rock_factor)
     
     # 2. Kuz Ram Fragmentation
     high_level = 10
@@ -37,7 +38,7 @@ if __name__ == '__main__':
     stdev_drilling_accuracy = 0   
     
     # Calculating the fragmentation size
-    blasthole_diameter = 0.05    # Minimum diameter, m
+    blasthole_diameter = 0.03    # Minimum diameter, m
     fragmentation_size = 0       # Initial fragmentation size, m
     while (fragmentation_size < x_kuzram):
         # Kuz-Ram Calculations
