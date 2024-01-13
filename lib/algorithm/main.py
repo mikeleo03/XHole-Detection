@@ -44,7 +44,8 @@ if __name__ == '__main__':
         kuzram_class = KuzRam_Fragmentation(explosives_density, detonation_speed, blasting_energy, rock_density, blasthole_diameter, high_level)
         fragmentation_size = kuzram_class.run(rock_factor, rock_deposition, geologic_structure, number_of_rows, ignition_method)
         print("diameter, size:", blasthole_diameter, fragmentation_size)
-        blasthole_diameter += 0.01
+        if (fragmentation_size < x_kuzram):
+            blasthole_diameter += 0.01
         
     print("Expected diameter:", round(blasthole_diameter, 2))
     
@@ -53,7 +54,7 @@ if __name__ == '__main__':
         # Rosin-Rammler Calculations
         corrected_burden = kuzram_class.get_corrected_burden()
         rossin_rammler_class = Rosin_Rammler(stdev_drilling_accuracy, corrected_burden, fragmentation_size, blasthole_diameter, high_level)
-        rossin_rammler_class.calculate_rossin(int(2 * x_kuzram))
+        rossin_rammler_class.calculate_rossin(int(2.25 * x_kuzram))
         sieve_size_data, percent_data = rossin_rammler_class.get_rossin_data()
     
         # Doing reggression with all those data and get the sieve_size_data when percent_data = 80
@@ -65,12 +66,20 @@ if __name__ == '__main__':
             y_val1 = percent_data[pos]
             x_val1 = sieve_size_data[pos]
             pos += 1
-            
-        print("Value, pos:", x_val1, y_val1, pos)
-        y_val2 = percent_data[pos+1]
-        x_val2 = sieve_size_data[pos+1]
         
-        x_val = abs(x_val1 - x_val2) / 2
+        # Gather the larger one
+        y_val2 = percent_data[pos-2]
+        x_val2 = sieve_size_data[pos-2]
+        
+        # Normalize values
+        y_nom2 = y_val2 - 80
+        y_nom1 = 80 - y_val1
+        y_fix2 = y_nom2 / (y_nom1 + y_nom2)
+        y_fix1 = y_nom1 / (y_nom1 + y_nom2)
+        
+        # Weighting process
+        x_val = x_val1 * y_fix1 + x_val2 * y_fix2
+        print(x_val1, y_fix1, x_val2, y_fix2)
         print("X Val:", x_val)
         
         # Conditions
@@ -80,7 +89,7 @@ if __name__ == '__main__':
             blasthole_diameter -= 0.01
         
     print("Final expected diameter:", round(blasthole_diameter, 2))
-    rossin_rammler_class.run(int(2 * x_kuzram))
+    rossin_rammler_class.run(int(2.25 * x_kuzram), round(x_val, 3), 80, x_kuzram)
     
     # 4. Cost_Calculation
     rock_volume = kuzram_class.get_rock_volume()

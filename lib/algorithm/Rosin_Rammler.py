@@ -76,7 +76,7 @@ class Rosin_Rammler:
         # Run for sieve_size from 1 - 1000
         for sieve_size in range(1, value + 1):
             # Calculate the distribution
-            dist = self.calculate_distribution(sieve_size)
+            dist = 100 - self.calculate_distribution(sieve_size)
 
             # Print the result
             self.sieve_size_data.append(sieve_size)
@@ -94,7 +94,7 @@ class Rosin_Rammler:
         '''
         return max(self.percent_data) >= 80
 
-    def run(self, value):
+    def run(self, value, x_highlight, y_highlight, x_kuzram):
         '''
             Plot Rossin Ramler calculations
         '''
@@ -103,9 +103,14 @@ class Rosin_Rammler:
         
         # Plot the data
         plt.plot(self.sieve_size_data, self.percent_data)
-        plt.xlabel("Fragmentasi (cm)")  # add X-axis label
-        plt.ylabel("Presentase Lolos (%)")  # add Y-axis label
-        plt.title("Estimasi Hasil Fragmentasi Peledakan")  # add title
+        plt.xlabel("Fragmentation Size (cm)")  # add X-axis label
+        plt.ylabel("Pass Precentage (%)")  # add Y-axis label
+        plt.title("Estimation of Blast Fragmentation Results")  # add title
+        # Highlight the specific point in red using plt.scatter
+        plt.scatter(x_highlight, y_highlight, color='red', label='Highlighted Point')
+        # Add text annotation next to the highlighted point
+        plt.text(x_highlight + 1, y_highlight + 3, f'80% Rossin = {x_highlight}', color='red', fontsize=9, ha='left')
+        plt.text(1, 4, f'X Kuz-Ram = {x_kuzram}', color='orange', fontsize=9, ha='left', va='bottom')
         plt.show()
 
         """ # Save the plot to a BytesIO object
