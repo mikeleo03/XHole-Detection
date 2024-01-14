@@ -1,4 +1,4 @@
-import pandas as pd
+import csv
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
@@ -7,13 +7,13 @@ import os
 # Read environment variable
 load_dotenv()
 variable_name = 'MONGO_URI'
-uri = os.environ[variable_name]
+uri = os.environ.get(variable_name)
 
 if uri:
     print(f"The value of {variable_name} is: {uri}")
 else:
     print(f"{variable_name} is not set.")
-    
+
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
 
@@ -31,14 +31,13 @@ collection_name = database_name.stone
 # Google Sheets exported CSV file path
 csv_file_path = "../data/rock_data.csv"
 
-# Read CSV file into a Pandas DataFrame
-df = pd.read_csv(csv_file_path)
+# Read CSV file and insert data into MongoDB collection
+with open(csv_file_path, 'r') as csvfile:
+    csvreader = csv.DictReader(csvfile)
+    data = [row for row in csvreader]
 
-# Convert DataFrame to a list of dictionaries (each row becomes a dictionary)
-data = df.to_dict(orient='records')
-
-# Insert data into MongoDB collection
-collection_name.insert_many(data)
+    # Insert data into MongoDB collection
+    collection_name.insert_many(data)
 
 # Close MongoDB connection
 client.close()

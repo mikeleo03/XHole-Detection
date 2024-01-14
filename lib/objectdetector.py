@@ -1,7 +1,5 @@
 import numpy as np
 import cv2
-import scipy
-from scipy.spatial import distance as dist
 
 CONFIG_PATH = "config/"
 
@@ -52,6 +50,12 @@ net.setInputSize(320,320)
 net.setInputScale(1.0/ 127.5)
 net.setInputMean((127.5, 127.5, 127.5))
 net.setInputSwapRB(True)
+
+def euclidean_distance(point1, point2):
+    x1, y1 = point1
+    x2, y2 = point2
+    distance = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+    return int(distance)
 
 # focal length finder function
 def FocalLength(measured_distance, real_width, width_in_rf_image):
@@ -210,7 +214,9 @@ if __name__ == "__main__":
                 frame = cv2.rectangle(frame, (x1, y1), (x2, y2), [0, 0, 255], 2)
 
             if len(bbox) == 2:
-                D = int(dist.euclidean((stack_x.pop(), stack_y.pop()), (stack_x.pop(), stack_y.pop())))
+                point1 = (stack_x.pop(), stack_y.pop())
+                point2 = (stack_x.pop(), stack_y.pop())
+                D = euclidean_distance(point1, point2)
                 frame = cv2.line(frame, (stack_x_print.pop(), stack_y_print.pop()), (stack_x_print.pop(), stack_y_print.pop()), [0, 0, 255], 2)
             else:
                 D = 0
