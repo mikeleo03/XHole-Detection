@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     // Get all input elements
-    const inputs = document.querySelectorAll('input[type="number"], select');
+    const inputs = document.querySelectorAll('input[type="text"], select');
 
     // Attach focus and blur event listeners to each input
     inputs.forEach(function (input) {

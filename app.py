@@ -9,8 +9,11 @@ from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
 import os
 import locale
+import webbrowser
+from flask_ngrok import run_with_ngrok
 
 app = Flask(__name__)
+run_with_ngrok(app)
 
 # Read environment variable
 load_dotenv()
@@ -242,4 +245,5 @@ def submit_form():
         return render_template('result.html', **template_data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    webbrowser.open_new('http://localhost:5000/')
+    app.run()
