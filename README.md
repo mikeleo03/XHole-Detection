@@ -102,11 +102,11 @@ If you do it correctly, the pogram should be running on localhost:5000.
 Make sure you have installed module named `flask_ngrok` and have `ngrok` on your laptop/PC. You can follow [this guide](https://ngrok.com/docs/getting-started/) for further explanation. <br>
 After that, you could run the program using this script
 ``` bash
-    $ ngrok http 5000
+$ ngrok http 5000
 ```
 or this script
 ``` bash
-    $ ngrok http --domain=[domain name] 5000
+$ ngrok http --domain=[domain name] 5000
 ```
 with `[domain name]` replaced by your personal domain or using free ngrok domain. <br>
 p.s. Currently the website can only be run in the mobile version.
@@ -117,4 +117,9 @@ p.s. Currently the website can only be run in the mobile version.
 3. After providing recommendations, the application will provide complete and comprehensive blasting analysis results with the recommended blast hole diameter. Apart from that, the application will also display a graph of the Rossin distribution of rock fragmentation results and provide recommendations for action to produce better fragmentation measurements.
 
 ## Screenshots
-![screenshots](assets/screenshots.PNG)
+<div align="center">
+    <img src = "assets/Home.png" width = 20% height= 100%>
+    <img src = "assets/Screen1.png" width = 20% height= 100%>
+    <img src = "assets/Screen2.png" width = 20% height= 100%>
+    <img src = "assets/Screen3.png" width = 20% height= 100%>
+</div>
